@@ -1,0 +1,115 @@
+syntax = "proto3";
+package pcep;
+
+enum LspEventType {
+  LSP_UP = 0;
+  LSP_DOWN = 1;
+  LSP_UPDATE = 2;
+  LSP_DELEGATION = 3;
+  LSP_REVOCATION = 4;
+}
+
+enum PccState {
+  IDLE = 0;
+  UP = 1;
+}
+
+message LspRro {
+  string hopIP = 1;
+  int32 recordedLabel = 2;
+  bool localProtectionInUse = 3;
+}
+
+message LspEro {
+  bool loose = 1;
+  string hopIP = 2;
+}
+
+message LspAttributes {
+  int32 setupPriority = 1;
+  int32 holdPriority = 2;
+  int64 reservedBandwidth = 3;
+  int64 maxAvgBandwidth = 4;
+  int32 pathMetric = 5;
+  repeated LspRro reportedPath = 6;
+  repeated LspEro explicitPath = 7;
+  repeated int32 excludeAny = 8;
+}
+
+message PbLsp {
+  int32 lspID = 1;
+  string name = 2;
+  string sourceIP = 3;
+  string destinationIP = 4;
+  bool active = 5;
+  LspAttributes attrs = 6;
+}
+
+message LspEvent {
+  LspEventType type = 1;
+  string routerIP = 2;
+  PbLsp lsp = 3;
+}
+
+message LspDumpRequest {
+  string routerIP = 1;
+  int32 filters = 2;
+}
+
+message LspDumpResponse {
+  repeated LspEvent lsps = 1;
+}
+
+message PccRouter {
+  string name = 1;
+  PccState state = 2;
+  bool isStateful = 3;
+  bool supportsCreate = 4;
+  int32 sessionID = 5;
+}
+
+message UpdateLspRequest {
+  string router = 1;
+  // map of LspID -> changed atttributes for resignaling.
+  // Caller needs to include both changed and unchanged(original)
+  // attribute values.
+  map<int32, LspAttributes> lspChanges = 2;
+}
+
+message LspResponse {
+  bool success = 1;
+  string error = 2;
+}
+
+message CreateLspRequest {
+  string router = 1;
+  repeated PbLsp lspsToCreate = 2;
+} 
+
+message DeleteLspRequest {
+  string router = 1;
+  repeated int32 lspIDs = 3;
+}
+
+message PccRouters {
+  repeated PccRouter routers = 1;
+}
+
+message Empty {}
+
+service PceService {
+
+  // get a full current lsp dump for a given router
+  rpc GetLspDump(LspDumpRequest) returns (LspDumpResponse) {}
+
+  // get a list of active PCC routers
+  rpc GetPccRouters(Empty) returns (PccRouters) {}
+
+  rpc UpdateLsps(UpdateLspRequest) returns (LspResponse) {}
+
+  // create new LSPs on a given router
+  rpc CreateLsps(CreateLspRequest) returns (LspResponse) {}
+
+  // delete previously created LSPs on a given router
+  rpc DeleteLsps(DeleteLspRequest) returns (LspResponse) {}
+}
