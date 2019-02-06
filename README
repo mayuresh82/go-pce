@@ -3,7 +3,7 @@ PCEP ( Path Computation Element Protocol) is an IETF standard for communicating 
 The implementation here is meant to be a basic active-stateful implementation (active: can actively modify LSP attrs; stateful: maintains LSP state in memory) and allows for lsp attribute changes and external lsp path setup.
 As part of initial protocolturnup, each router sends out a full LSP dump to the pcep server and then subsequent changes every time an LSP attribute changes (bandwidth, metric, rro etc).
 
-Note that the actual path-compuation is performed by an external entity, this system provides a framework to signal those paths out to routers.
+Note that the actual path-compuation is performed by an external entity, this system provides a framework and the protocol to signal those paths out to routers.
 
 There are two major components:
 
