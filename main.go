@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"github.com/golang/glog"
+	"github.com/mayuresh82/go-pce/pcep"
 	"google.golang.org/grpc"
 	"net"
-	"pce/pcep"
 	"strconv"
 	"time"
 

@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/mayuresh82/go-pce/pcep"
 	"net"
-	"pce/pcep"
 	"strings"
 
 	"github.com/golang/glog"
