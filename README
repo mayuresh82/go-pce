@@ -1,4 +1,4 @@
-PCEP ( Path Computation Element Protocol) is an IETF standard for communicating with mpls LSRs/LERs in order to signal LSP paths and attributes, including the setup and teardown of LSPs. It is almost a ten year old standard that has gone through several iterations and drafts. Juniper as of 15.1 code now supports PCEP for external LSP signalling.
+PCEP ( Path Computation Element Protocol) is an IETF standard for communicating with mpls LSRs/LERs in order to signal LSP paths and attributes, including the setup and teardown of LSPs. It is almost a ten year old standard that has gone through several iterations and drafts. Most major vendors support PCEP for external LSP signalling.
 
 The implementation here is meant to be a basic active-stateful implementation (active: can actively modify LSP attrs; stateful: maintains LSP state in memory) and allows for lsp attribute changes and external lsp path setup.
 As part of initial protocolturnup, each router sends out a full LSP dump to the pcep server and then subsequent changes every time an LSP attribute changes (bandwidth, metric, rro etc).
