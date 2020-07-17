@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"os"
-	"pce/pcep"
+	"github.com/mayuresh82/go-pce/pcep"
 	"text/tabwriter"
 )
 
